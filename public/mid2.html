@@ -7,15 +7,17 @@
         div#app { padding: 50px; margin: 30px auto; max-width: 300px; 
           border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; font-size: 11pt; }
         button { padding: 0.5em 2em; margin: 30px 5px 0px 5px; font-size: 12pt; }
-        span{ display:block; margin: 20px auto ;width: 100px; height: 100px; border: 1px solid black;}
+        span{ display:block; margin: 20px auto;width: 100px; height: 100px; border: 1px solid black;}
 
       </style>    
 </head>
 
 <body>
     <div id="app">
-        <button type="button" v-bind:disabled="value" v-on:click="value=true">보이기</button>
-        <button type="button" v-bind:disabled="!value" v-on:click="value=false">감추기</button>
+        <div class="btn-container">
+            <button type="button" v-bind:disabled="value" v-on:click="value=true">보이기</button>
+            <button type="button" v-bind:disabled="!value" v-on:click="value=false">감추기</button>
+        </div>
         <span v-show="value" style="background-color: yellow;"></span>
     </div>
 

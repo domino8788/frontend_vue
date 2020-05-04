@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div#app { padding: 50px; margin: 30px auto; max-width: 500px; 
+          border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; font-size: 11pt; }
+        input { padding: 10px; width: 150px; }
+        button { padding: 10px 20px; }
+        span { display: inline-block; margin: 5px; padding: 8px 16px; border: 1px solid black; cursor: pointer; }
+      </style>    
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="value" />
+        <button type="button" v-on:click="produce">생성</button>
+        <div>
+            <span v-for="(value, index) in arr" v-bind:key="index">
+                {{ value }}
+            </span>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: "#app",
+            data: {
+                arr : [],
+                value:0,
+            },
+            methods:{
+                produce:function(){
+                    this.arr = []
+                    for(let i=0;i<this.value;i++){
+                        this.arr[i] = Math.floor(Math.random()*10) 
+                    }
+                    this.$forceUpdate()
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
