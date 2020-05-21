@@ -1,0 +1,73 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="todo1.css">
+  <style>
+    ul {
+      list-style-type: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>할 일</h1>
+    <ul>
+      <li v-for="(todo, key, index) in todoMap">
+        <input type="checkbox" v-model="checked[index]" />
+        {{ todo.title }}
+      </li>
+    </ul>
+    <input type="text" v-model.trim="todo.title" />
+    <button type="button" v-on:click="addTodo" v-bind:disabled="!todo.title">할일 추가</button>
+    <button type="button" v-on:click="deleteTodo" v-show="checkedCount > 0">삭제</button>
+  </div>
+
+  <script type="text/javascript">
+    var app = new Vue({
+      el: '#app',
+      data: {
+        todoMap: {},
+        checked: [],
+        todo: {}
+      },
+      computed: {
+        checkedCount: function () {
+          let count = 0
+          for (let i = 0; i < this.checked.length; ++i)
+            if (this.checked[i]) ++count;
+          return count;
+        }
+      },
+      methods: {
+        reload: function () {
+          axios.get('https://skhu-knj.firebaseio.com/todo17.json')
+            .then(response => this.todoMap = response.data)
+        },
+        addTodo: function () {
+          axios.post('https://skhu-knj.firebaseio.com/todo17.json', this.todo)
+            .then(response => this.reload())
+          this.todo = {}
+        },
+        deleteTodo: function () {
+          Object.keys(this.todoMap).forEach((key, index) => {
+            if (this.checked[index]) {
+              axios.delete('https://skhu-knj.firebaseio.com/todo17/' + key + '.json')
+                .then(response => this.reload())
+            }
+          })
+          this.checked = []
+        }
+      }
+    })
+
+    window.onload = function () {
+      app.reload()
+    }
+  </script>
+</body>
+
+</html>
